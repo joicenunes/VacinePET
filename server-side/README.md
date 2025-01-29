@@ -4,6 +4,7 @@
 2. Utilize suas variáveis de projeto no .env, utilizando o [.env.example](./.env.example) como base para seus secrets
     * Ache seus secrets de projeto do SUPABASE em `Project Settings > Configuration > API`
     * O JWT_SECRET para rodar local fica a seu critérito
+    * Para envio de e-mails pelo sistema, o desenvolvimento está sendo feito com conta SMTP da Brevo. Crie seu usuário e copie suas secrets para o .env
 
 # Instale depedências
 
