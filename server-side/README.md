@@ -12,6 +12,7 @@ Para rodar o projeto na sua máquina, é necessário ter o [node](https://nodejs
 As versões utilizadas na criação do projeto foram
 - Node: v22.8.0
 - npm: 10.9.0
+
 Caso encontre problemas na intalação dos pacotes ou na hora de rodar o projeto, tente manter as versões de acordo com essas.
 
 # Rode o projeto
