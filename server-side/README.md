@@ -7,7 +7,12 @@
 
 # Instale depedências
 
-Rode `npm install` no terminal dentro da pasta server-side para instalar as depedências do projeto
+Para rodar o projeto na sua máquina, é necessário ter o [node](https://nodejs.org/pt/download) e o npm (vem na instalação do node) instalados. Rode `npm install` no terminal dentro da pasta server-side para instalar as depedências do projeto.
+
+As versões utilizadas na criação do projeto foram
+- Node: v22.8.0
+- npm: 10.9.0
+Caso encontre problemas na intalação dos pacotes ou na hora de rodar o projeto, tente manter as versões de acordo com essas.
 
 # Rode o projeto
 
