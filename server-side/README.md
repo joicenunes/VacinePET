@@ -2,6 +2,7 @@
 
 1. Configure seu supabase com a estrutura de tabelas presente no [arquivo de estrutura de tabelas](./db_config/table_structure_dump.sql)
 2. Utilize suas variáveis de projeto no .env, utilizando o [.env.example](./.env.example) como base para seus secrets
+    * Ache seus secrets de projeto em `Project Settings > Configuration > API`
 
 # Instale depedências
 
