@@ -8,7 +8,7 @@ export const createPet = async (req, res) => {
 
     res.status(201).json({ message: 'Pet criado com sucesso!', pet });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: 'Erro ao criar pet.' });
   }
 };
 
@@ -29,6 +29,6 @@ export const updatePet = async (req, res) => {
 
     res.status(201).json({ message: 'Pet editado com sucesso!' });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Erro ao editar pet." });
   }
 };

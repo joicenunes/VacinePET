@@ -78,6 +78,8 @@ const PetModel = {
       console.error('Erro ao editar o pet:', error.message);
       throw error;
     };
+
+    return true;
   }
 }
 
