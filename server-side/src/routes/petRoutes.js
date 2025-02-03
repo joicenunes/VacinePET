@@ -1,9 +1,10 @@
 import express from 'express';
 import { createPet } from '../controllers/petController.js';
-import { authenticate } from '../auth/auth.js';
+import { authenticateToken } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', authenticate, createPet);
+router.post('/', authenticateToken, createPet);
+router.post('/:id', authenticateToken, createPet);
 
 export default router;
