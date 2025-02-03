@@ -62,7 +62,7 @@ const PetModel = {
   getAllPets: async (owner) => {
     const { data, error } = await supabase
       .from('pets')
-      .select('*')
+      .select('name, species, breed, birthday, weight')
       .eq('owner', owner);
 
     if (error) {
