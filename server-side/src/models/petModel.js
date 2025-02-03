@@ -48,7 +48,26 @@ const PetModel = {
 
     if (error) {
       console.error('Erro ao buscar pet:', error.message, " Filtros: ", JSON.stringify(filter));
-      throw error;
+      throw 'Erro ao buscar pet.';
+    }
+
+    return data;
+  },
+
+  /**
+   * Busca todos os pets pelo id do dono.
+   * @param {number} owner - Id do dono para buscar os pets.
+   * @returns {Object} - Dados do pet ou um erro.
+   */
+  getAllPets: async (owner) => {
+    const { data, error } = await supabase
+      .from('pets')
+      .select('*')
+      .eq('owner', owner);
+
+    if (error) {
+      console.error('Erro ao buscar pets:', error.message);
+      throw 'Erro ao buscar pets.';
     }
 
     return data;
