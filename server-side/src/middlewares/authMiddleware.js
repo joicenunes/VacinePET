@@ -1,15 +1,18 @@
 import jwt from 'jsonwebtoken';
-import { invalidTokens } from "../routes/auth";
+import { invalidTokens } from '../controllers/authController.js';
 
 export const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization;
-  if (!token || invalidTokens.has(token)) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  const bearerToken = req.headers.authorization;
+  const token = bearerToken?.split(' ')[1];
+  if (!bearerToken || invalidTokens.has(token)) {
+    return res.status(401).json({ error: 'Não autorizado' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ message: 'Token inválido' });
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
     next();
-  });
+  } catch (err) {
+    return res.status(403).json({ error: 'Token inválido' });
+  }
 };
