@@ -1,92 +1,102 @@
 import supabase from '../config/supabaseClient.js';
-import { sanitizeVaccineData } from '../services/vaccineService.js';
+
+const sanitizeVaccineData = (data, operation) => {
+  const sanitized = {};
+  
+  if (operation === 'create' || operation === 'update') {
+    if (data.name) sanitized.name = data.name.trim();
+  }
+  
+  return sanitized;
+};
 
 const VaccineModel = {
   /**
-   * Cria um nova vacina no banco de dados.
+   * Cria uma nova vacina no banco de dados.
    * @param {Object} vaccineData - Dados da vacina (name).
-   * @returns {Object} - Dados do vacina criada ou um erro.
+   * @returns {Promise<Object>} - Dados da vacina criada ou um erro.
    */
   async createVaccine(vaccineData) {
-    vaccineData = { ...sanitizeVaccineData(vaccineData, 'create') };
+    try {
+      const sanitizedData = sanitizeVaccineData(vaccineData, 'create');
+      const { data, error } = await supabase
+        .from('vaccines')
+        .insert(sanitizedData)
+        .select('id, name');
 
-    const { data, error } = await supabase
-      .from('vaccines')
-      .insert(vaccineData)
-      .select('id, name');
-
-    if (error) {
+      if (error) throw error;
+      return data;
+    } catch (error) {
       console.error('Erro ao criar vacina:', error.message);
       throw error;
     }
-
-    return data;
   },
 
   /**
-   * Busca uma vacina pelo ID.
+   * Busca uma vacina usando filtros dinâmicos.
    * @param {Object} filter - Filtro dinâmico com colunas e valores para comparação.
-   * @returns {Object} - Dados da vacina ou um erro.
+   * @returns {Promise<Object>} - Dados da vacina ou um erro.
    */
   async getVaccineByDynamicFilter(filter) {
-    let queryBuilder = supabase
-      .from('vaccines')
-      .select('*');
-    
-    for (const [column, value] of Object.entries(filter)) {
-      query = query.eq(column, value);
+    try {
+      let queryBuilder = supabase
+        .from('vaccines')
+        .select('*');
+
+      Object.entries(filter).forEach(([column, value]) => {
+        queryBuilder = queryBuilder.eq(column, value);
+      });
+
+      const { data, error } = await queryBuilder.single();
+      
+      if (error) {
+        throw new Error(`Erro ao buscar vacina. Filtros: ${JSON.stringify(filter)}`);
+      }
+      return data;
+    } catch (error) {
+      console.error('Erro ao buscar vacina:', error.message);
+      throw error;
     }
-
-    const { data, error } = await queryBuilder.single();
-
-    if (error) {
-      console.error('Erro ao buscar vacina:', error.message, " Filtros: ", JSON.stringify(filter));
-      throw 'Erro ao buscar vacina.';
-    }
-
-    return data;
   },
 
   /**
-   * Busca todas as vacinas pelo id da vacina.
-   * @param {number} name - Id do vacina.
-   * @returns {Object} - Dados da vacina ou um erro.
+   * Busca todas as vacinas.
+   * @returns {Promise<Object[]>} - Lista de vacinas ou um erro.
    */
-  getAllVaccines: async (owner) => {
-    const { data, error } = await supabase
-      .from('vaccines')
-      .select('name)
-      .eq('id', name);
+  async getAllVaccines() {
+    try {
+      const { data, error } = await supabase
+        .from('vaccines')
+        .select('id, name');
 
-    if (error) {
-      console.error('Erro ao buscar vacina:', error.message);
-      throw 'Erro ao buscar vacinas.';
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Erro ao buscar vacinas:', error.message);
+      throw error;
     }
-
-    return data;
   },
 
   /**
    * Edita uma vacina no banco de dados.
-   * @param {Object} vaccineData - Dados editaveis da vacina (name).
-   * @returns {Object} - Id da vacina editada ou um erro.
+   * @param {Object} vaccineData - Dados editáveis da vacina (name).
+   * @returns {Promise<boolean>} - True se a atualização foi bem-sucedida ou lança um erro.
    */
   async updateVaccine(vaccineData) {
-    vaccineData = { ...sanitizeVacineData(vaccineData, 'update') };
+    try {
+      const sanitizedData = sanitizeVaccineData(vaccineData, 'update');
+      const { error } = await supabase
+        .from('vaccines')
+        .update(sanitizedData)
+        .eq('id', vaccineData.id);
 
-    const { error } = await supabase
-      .from('vaccines')
-      .update(vaccineData)
-      .eq('id', vaccineData.id)
-      .eq('name', vaccineData.name);
-
-    if (error) {
+      if (error) throw error;
+      return true;
+    } catch (error) {
       console.error('Erro ao editar a vacina:', error.message);
       throw error;
-    };
-
-    return true;
+    }
   }
-}
+};
 
 export default VaccineModel;
