@@ -1,8 +1,11 @@
-import { useRouter } from 'expo-router';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, Button, TextInput } from "react-native";
+
+import { router } from "expo-router";
+
+import { useSession } from "../ctx";
 
 export default function LoginScreen() {
-  const router = useRouter();
+  const { signIn } = useSession();
 
   const handleLogin = () => {
     // Simulate login
@@ -12,6 +15,17 @@ export default function LoginScreen() {
   return (
     <View>
       <Text>Login</Text>
+      <TextInput placeholder="Email" />
+      <TextInput placeholder="Senha" secureTextEntry />
+      <Button
+        title="Login"
+        onPress={() => {
+          signIn();
+          // Navigate after signing in. You may want to tweak this to ensure sign-in is
+          // successful before navigating.
+          router.replace("/");
+        }}
+      ></Button>
       {/* <TextInput placeholder="Email" />
       <TextInput placeholder="Senha" secureTextEntry />
       <Button title="Entrar" onPress={handleLogin} /> */}

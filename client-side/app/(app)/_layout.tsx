@@ -23,6 +23,14 @@ export default function TabLayout() {
     return <Text>Loading...</Text>;
   }
 
+  // Only require authentication within the (app) group's layout as users
+  // need to be able to access the (auth) group and sign in again.
+  if (!session) {
+    // On web, static rendering will stop here as the user is not authenticated
+    // in the headless Node process that the pages are rendered in.
+    return <Redirect href="/login" />;
+  }
+
   return (
     <Tabs
       screenOptions={{
@@ -39,16 +47,16 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="login"
+        name="index"
         options={{
-          title: 'Login',
+          title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="register"
+        name="explore"
         options={{
-          title: 'Register',
+          title: 'Explore',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
