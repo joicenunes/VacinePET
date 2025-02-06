@@ -31,7 +31,7 @@ export const getAllPets = async (req, res) => {
   const owner = req.user.id;
 
   try {
-    const pets = await PetModel.getAllPets({ owner });
+    const pets = await PetModel.getAllPets(owner);
 
     res.status(200).json(pets);
   } catch (error) {
@@ -41,10 +41,11 @@ export const getAllPets = async (req, res) => {
 
 export const updatePet = async (req, res) => {
   const owner = req.user.id;
+  const { id } = req.params;
 
   try {
     const petFound = await PetModel.getPetByDynamicFilter({
-      id: req.params.id,
+      id,
       owner,
     });
 
@@ -53,5 +54,22 @@ export const updatePet = async (req, res) => {
     res.status(201).json({ message: 'Pet editado com sucesso!' });
   } catch (error) {
     res.status(400).json({ error: "Erro ao editar pet." });
+  }
+};
+
+export const deletePet = async (req, res) => {
+  const owner = req.user.id;
+  const { id } = req.params;
+
+  try {
+    const petFound = await PetModel.getPetByDynamicFilter({ id, owner });
+    if (!petFound) {
+      return res.status(403).json({ error: 'Ação não permitida!' });
+    }
+
+    await PetModel.deletePet(id);
+    res.status(204).end();
+  } catch(error) {
+    return res.status(403).json({ error: 'Ação não permitida!' });
   }
 };
