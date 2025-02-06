@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   get:
  *     tags: [Users]
  *     summary: Lista todos os usuários
@@ -20,7 +20,7 @@
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   post:
  *     tags: [Users]
  *     summary: Cria um novo usuário
@@ -50,7 +50,7 @@
 
 /**
  * @swagger
- * /users/{id}:
+ * /api/users/{id}:
  *   delete:
  *     tags: [Users]
  *     summary: Deleta um usuário pelo ID

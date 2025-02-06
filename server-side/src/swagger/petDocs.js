@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /pets:
+ * /api/pets:
  *   get:
  *     tags: [Pets]
  *     summary: Lista todos os pets
@@ -22,7 +22,7 @@
 
 /**
  * @swagger
- * /pets/{id}:
+ * /api/pets/{id}:
  *   get:
  *     tags: [Pets]
  *     summary: Obtém um pet por ID
@@ -64,7 +64,7 @@
 
 /**
  * @swagger
- * /pets:
+ * /api/pets:
  *   post:
  *     summary: Cria um novo pet
  *     description: Permite que um usuário autenticado cadastre um novo pet.
@@ -80,7 +80,6 @@
  *             required:
  *               - name
  *               - species
- *               - owner
  *               - breed
  *               - birthday
  *               - weight
@@ -92,9 +91,6 @@
  *               species:
  *                 type: string
  *                 description: Espécie do pet
- *               owner:
- *                 type: integer
- *                 description: ID do dono do pet.
  *               breed:
  *                 type: string
  *                 description: Raça do pet.
@@ -130,11 +126,135 @@
 
 /**
  * @swagger
- * /pets/{id}:
+ * /api/pets/{id}:
+ *   put:
+ *     summary: Edita um pet
+ *     description: Permite que um usuário autenticado edite um pet.
+ *     tags: [Pets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do pet a ser editado
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - species
+ *               - breed
+ *               - birthday
+ *               - weight
+ *               - gender
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nome do pet.
+ *               species:
+ *                 type: string
+ *                 description: Espécie do pet
+ *               breed:
+ *                 type: string
+ *                 description: Raça do pet.
+ *               birthday:
+ *                 type: string
+ *                 format: date
+ *                 description: Data de nascimento do pet.
+ *               weight:
+ *                 type: number
+ *                 format: float
+ *                 description: Peso do pet em kg.
+ *               description:
+ *                 type: string
+ *                 description: Descrição do pet.
+ *     responses:
+ *       201:
+ *         description: Pet criado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *       400:
+ *         description: Erro ao criar pet.
+ */
+
+/**
+ * @swagger
+ * /api/pets/{id}/add-vaccine:
+ *   post:
+ *     summary: Atribuir uma vacinação a um pet
+ *     description: Registra uma vacinação para um pet específico.
+ *     tags: [Pets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do pet que receberá a vacinação
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - vaccine_id
+ *               - applied_in
+ *             properties:
+ *               vaccine_id:
+ *                 type: string
+ *                 example: "12345"
+ *               applied_in:
+ *                 type: string
+ *                 format: date
+ *                 example: "2024-02-06"
+ *     responses:
+ *       201:
+ *         description: Vacinação atribuída com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Vacinação atribuída com sucesso!
+ *                 vaccine:
+ *                   type: object
+ *       400:
+ *         description: Erro ao criar vacinação
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Erro ao criar Vacinação.
+ */
+
+/**
+ * @swagger
+ * /api/pets/{id}:
  *   delete:
  *     tags: [Pets]
- *     summary: Deleta um usuário pelo ID
- *     description: Permite que um usuário autenticado delete sua própria conta. O usuário só pode excluir sua própria conta, não a de outros.
+ *     summary: Deleta um pet pelo ID
+ *     description: Permite que um usuário autenticado delete um pet próprio. O usuário só pode excluir pets que o pertencem, não é permitido excluir pets de outros usuários.
  *     security:
  *       - bearerAuth: []
  *     parameters:
