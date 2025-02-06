@@ -22,7 +22,7 @@ export const authenticateUser = async (email, password) => {
 
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
-    return { success: true, token };
+    return { success: true, token, name: user.name };
   } catch (error) {
     return { error: error.message };
   }

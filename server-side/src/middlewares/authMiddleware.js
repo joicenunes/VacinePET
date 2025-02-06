@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { invalidTokens } from '../controllers/authController.js';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const authenticateToken = (req, res, next) => {
   const bearerToken = req.headers.authorization;
