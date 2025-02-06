@@ -1,14 +1,5 @@
 import supabase from '../config/supabaseClient.js';
-
-const sanitizeVaccineData = (data, operation) => {
-  const sanitized = {};
-  
-  if (operation === 'create' || operation === 'update') {
-    if (data.name) sanitized.name = data.name.trim();
-  }
-  
-  return sanitized;
-};
+import { sanitizeVaccineData } from '../services/vaccineService.js';
 
 const VaccineModel = {
   /**
