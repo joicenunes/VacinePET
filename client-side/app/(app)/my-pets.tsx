@@ -30,9 +30,9 @@ const pets = [
   },
 ];
 
-export default function NotificationsScreen() {
+export default function MyPetsScreen() {
   // Define the type of item in FlatList
-  const renderNotificationCard: ListRenderItem<any> = ({ item }) => (
+  const renderPetCard: ListRenderItem<any> = ({ item }) => (
     <View style={styles.petCard}>
       <Image source={{ uri: item.image }} style={styles.petImage} />
       <View style={styles.petInfo}>
@@ -40,7 +40,9 @@ export default function NotificationsScreen() {
         <Text style={styles.petDetails}>
           {item.type} | {item.age} | {item.weight}
         </Text>
-        <TouchableOpacity style={styles.moreButton}>
+        <TouchableOpacity style={styles.moreButton} onPress={() => {
+          router.push('/Salsicha');
+        }}>
           <Text style={styles.moreButtonText}>Ver mais</Text>
         </TouchableOpacity>
       </View>
@@ -59,10 +61,10 @@ export default function NotificationsScreen() {
         <Text style={styles.headerTitle}>Meus pets</Text>
       </View>
 
-      {/* Notifications List */}
+      {/* Pets List */}
       <FlatList
         data={pets}
-        renderItem={(item) => renderNotificationCard(item)}
+        renderItem={(item) => renderPetCard(item)}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
       />
