@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -39,6 +39,32 @@ const pets = [
 ];
 
 export default function HomeScreen() {
+  const [weekDays, setWeekDays] = useState<string[]>([]);
+  const [today, setToday] = useState<number>(-1);
+  
+  function setCurrentWeekDays() {
+    const daysOfWeek = [
+        'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
+    ];
+    
+    const todayAux = new Date();
+    const currentDayIndex = todayAux.getDay();
+    setToday(currentDayIndex);
+    const currentWeek = [];
+    
+    for (let i = 0; i < 7; i++) {
+        const day = new Date();
+        day.setDate(todayAux.getDate() - currentDayIndex + i);
+        currentWeek.push(`${day.getDate()} ${daysOfWeek[day.getDay()]}`);
+    }
+    
+    setWeekDays(currentWeek);
+  }
+
+  useEffect(() => {
+    setCurrentWeekDays();
+  }, []);
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -63,20 +89,12 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
         style={styles.calendar}
       >
-        {[
-          "18 Seg",
-          "19 Ter",
-          "20 Qua",
-          "21 Qui",
-          "22 Sex",
-          "23 Sáb",
-          "24 Dom",
-        ].map((date, i) => (
+        {weekDays.map((date, i) => (
           <View
             key={i}
-            style={[styles.dateItem, i === 3 && styles.selectedDate]}
+            style={[styles.dateItem, i === today && styles.selectedDate]}
           >
-            <Text style={[styles.dateText, i === 3 && styles.selectedDateText]}>
+            <Text style={[styles.dateText, i === today && styles.selectedDateText]}>
               {date}
             </Text>
           </View>
