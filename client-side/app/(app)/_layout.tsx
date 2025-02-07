@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import { Platform, TouchableOpacity } from "react-native";
+import { Platform, Pressable } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -14,6 +14,7 @@ import { Redirect } from "expo-router";
 import { useSession } from "../../providers/ctx";
 
 export default function TabLayout() {
+  const { signOut } = useSession();
   const colorScheme = useColorScheme();
 
   const { session, isLoading } = useSession();
@@ -30,6 +31,11 @@ export default function TabLayout() {
     // in the headless Node process that the pages are rendered in.
     return <Redirect href="/login" />;
   }
+
+  const logout = async () => {
+    signOut();
+    return <Redirect href="/login" />;
+  };
 
   return (
     <Tabs
@@ -65,6 +71,14 @@ export default function TabLayout() {
               size={28}
               name="rectangle.portrait.and.arrow.right"
               color={color}
+            />
+          ),
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              onPress={() => {
+                logout();
+              }}
             />
           ),
         }}
