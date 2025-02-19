@@ -38,10 +38,10 @@ const PetModel = {
   async getPetByDynamicFilter(filter) {
     let queryBuilder = supabase
       .from('pets')
-      .select('*');
-    
+      .select('*, pet_vaccinations(*), medical_history(*)');
+
     for (const [column, value] of Object.entries(filter)) {
-      query = query.eq(column, value);
+      queryBuilder = queryBuilder.eq(column, value);
     }
 
     const { data, error } = await queryBuilder.single();
@@ -62,7 +62,7 @@ const PetModel = {
   getAllPets: async (owner) => {
     const { data, error } = await supabase
       .from('pets')
-      .select('name, species, breed, birthday, weight')
+      .select('id, name, species, breed, birthday, weight')
       .eq('owner', owner);
 
     if (error) {
@@ -75,7 +75,7 @@ const PetModel = {
 
   /**
    * Edita um pet no banco de dados.
-   * @param {Object} petData - Dados ediáveis do pet (name,
+   * @param {Object} petData - Dados ediáveis do pet  (name,
         species,
         breed,
         birthday,
@@ -97,6 +97,22 @@ const PetModel = {
       console.error('Erro ao editar o pet:', error.message);
       throw error;
     };
+
+    return true;
+  },
+
+  /**
+   * Deleta um pet pelo ID.
+   * @param {number} petId - ID do pet.
+   * @returns {boolean} - Retorna true se o pet foi deletado com sucesso.
+   */
+  deletePet: async (petId) => {
+    const { error } = await supabase.from('pets').delete().eq('id', petId);
+
+    if (error) {
+      console.error('Erro ao deletar pet:', error.message);
+      throw error;
+    }
 
     return true;
   }

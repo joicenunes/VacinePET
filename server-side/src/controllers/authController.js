@@ -9,7 +9,7 @@ export const userLogin = async (req, res) => {
   if (result.error)
     return res.status(401).json({ error: result.error });
 
-  res.json({ message: 'Login bem-sucedido!', token: result.token });
+  res.json({ message: 'Login bem-sucedido!', token: result.token, name: result.name });
 };
 
 export const userLogout = (req, res) => {

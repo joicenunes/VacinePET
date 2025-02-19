@@ -7,7 +7,7 @@ export const createUser = async (req, res) => {
   try {
     const user = await UserModel.createUser({ name, email, password });
     
-    await sendConfirmationEmail(email, name);
+    // await sendConfirmationEmail(email, name);
     res.status(201).json({ message: 'Usuário criado com sucesso!', user });
   } catch (error) {
     res.status(400).json({ error: 'Erro ao criar usuário.' });
@@ -19,7 +19,7 @@ export const getUserById = async (req, res) => {
 
   try {
     const user = await UserModel.getUserById(id);
-    if (!user) return res.status(403).json({ message: 'Ação não permitida!' });
+    if (!user) return res.status(403).json({ error: 'Ação não permitida!' });
 
     res.status(200).json(user);
   } catch (error) {
@@ -42,7 +42,7 @@ export const deleteUser = async (req, res) => {
   try {
     if(req.user.id !== Number(id)) {
       console.error('Divergência de ID:', req.user.id, id);
-      return res.status(403).json({ message: 'Ação não permitida!' });
+      return res.status(403).json({ error: 'Ação não permitida!' });
     }
 
     await UserModel.deleteUser(id);
