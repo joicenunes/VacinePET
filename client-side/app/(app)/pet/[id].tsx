@@ -1,19 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { Feather } from "@expo/vector-icons";
+import { router, useLocalSearchParams, Link } from "expo-router";
+import { ThemedText } from '@/components/ThemedText';
+import { pets } from '../../../providers/mock';
+import { MedicalHistory, Pet } from '../../../interfaces/petInterfaces';
 
-const pet = {
-  id: "1",
-  name: "Salsicha",
-  type: "Cachorro | Dachshund",
-  age: "5 anos",
-  weight: "6,5kg",
-  image: "https://example.com/dog.jpg",
-  gender: "Macho"
-};
+export default function PetProfileScreen() {
+  const { id } = useLocalSearchParams();
 
-export default function SalsichaScreen() {
+  const [pet, setPet] = useState<Pet | null>(null);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const petFound = pets.find((pet) => pet.id === id);
+    setPet(petFound ?? null);
+    setLoading(false);
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
+
+  if (!pet) {
+    return (
+      <View style={styles.notFoundContainer}>
+        <ThemedText type="title">Pet não encontrado</ThemedText>
+        <Link href="/my-pets">
+          <ThemedText type="link">Voltar para meus pets</ThemedText>
+        </Link>
+      </View>
+    );
+  }
+
+  function renderMedicalHistory(medical_history: MedicalHistory[] | undefined): React.ReactNode {
+    if (!medical_history || medical_history.length === 0) {
+      return <Text style={styles.petDetails}>Histórico médico não disponível.</Text>;
+    }
+
+    return medical_history.map((entry, index) => (
+      <View key={index}>
+        <Text style={styles.petHistoryDate}>{entry.date}:</Text>
+        <Text style={styles.petDetails}>{entry.description}</Text>
+      </View>
+    ));
+  }
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -21,7 +57,7 @@ export default function SalsichaScreen() {
         <TouchableOpacity onPress={() => {
           router.push("/")
         }}>
-          <MaterialIcons name="arrow-back" size={24} color="black" />
+          <Feather name="arrow-left" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Salsicha</Text>
       </View>
@@ -34,7 +70,7 @@ export default function SalsichaScreen() {
         <View style={styles.petTitle}>
           <Text style={styles.petName}>{pet.name}</Text>
           <Text style={styles.petDetails}>
-            {pet.type}
+            {pet.type} | {pet.breed}
           </Text>
         </View>
         <View style={styles.petInfoContainer}>
@@ -53,21 +89,14 @@ export default function SalsichaScreen() {
         </View>
         <View style={styles.petSubsection}>
           <Text style={styles.petSubtitle}>Sobre</Text>
-          <Text style={styles.petDetails}>Salsicha é um cachorro muito amigável e brincalhão.</Text>
+          <Text style={styles.petDetails}>{pet.description}.</Text>
         </View>
         <View style={styles.petSubsection}>
           <Text style={styles.petSubtitle}>Vacinas</Text>
         </View>
         <View style={styles.petSubsection}>
           <Text style={styles.petSubtitle}>Histórico Médico</Text>
-          <View>
-            <Text style={styles.petHistoryDate}>24/02/2024:</Text>
-            <Text style={styles.petDetails}>Aplicação das vacinas V10 e Antirrábica.</Text>
-          </View>
-          <View>
-            <Text style={styles.petHistoryDate}>15/12/2023:</Text>
-            <Text style={styles.petDetails}>Tratamento de uma leve alergia alimentar.</Text>
-          </View>
+          { renderMedicalHistory(pet.medical_history) }
         </View>
       </View>
     </View>
@@ -76,6 +105,7 @@ export default function SalsichaScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FF914D", paddingTop: 50 },
+  notFoundContainer: { flex: 1, backgroundColor: "#FF914D", paddingTop: 50, justifyContent: "center", alignItems: "center" },
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -104,10 +134,10 @@ const styles = StyleSheet.create({
   },
   petImage: { width: 'auto', height: 150, borderRadius: 10, marginRight: 10 },
   petTitle: { width: '100%', marginTop: 10, paddingHorizontal: 20 },
-  petInfoContainer: { flex: 1, flexDirection: 'row', maxHeight: 85, marginVertical: 10 },
-  petInfo: { flex: 1, marginHorizontal: 15, borderStyle: "solid", borderColor: "#DDD", borderWidth: 1, padding: 15 },
+  petInfoContainer: { flex: 1, flexDirection: 'row', maxHeight: 75, marginVertical: 10 },
+  petInfo: { flex: 1, marginHorizontal: 15, padding: 15, boxShadow: "0 8px 12px #DDD", borderRadius: 10 },
   petInfoTitle: { color: "#666", fontSize: 16 },
-  petInfoData: { fontSize: 20, color: "#FF914D", fontWeight: "bold" },
+  petInfoData: { fontSize: 18, color: "#FF914D", fontWeight: "bold" },
   petDetails: { color: "#666", fontSize: 18, marginVertical: 5 },
   petName: { fontWeight: "600", fontSize: 24 },
   petSubsection: { width: "100%", paddingHorizontal: 14 },
