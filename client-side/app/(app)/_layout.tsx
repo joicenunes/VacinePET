@@ -12,6 +12,7 @@ import { Text } from "react-native";
 import { Redirect } from "expo-router";
 
 import { useSession } from "../../providers/ctx";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const { signOut } = useSession();
@@ -58,16 +59,16 @@ export default function TabLayout() {
         options={{
           title: "Início",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={26} name="house.fill" color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="my-pets"
         options={{
-          title: "Meus pets",
+          title: "Pets",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="pawprint.fill" color={color} />
+            <Ionicons size={26} name="paw" color={color} />
           ),
         }}
       />
@@ -77,7 +78,7 @@ export default function TabLayout() {
           title: "Logout",
           tabBarIcon: ({ color }) => (
             <IconSymbol
-              size={28}
+              size={26}
               name="rectangle.portrait.and.arrow.right"
               color={color}
             />
@@ -99,7 +100,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="Salsicha"
+        name="pet/[id]"
         options={{
           href: null,
         }}

@@ -8,38 +8,17 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
 } from "react-native";
+import { pets } from '../../providers/mock';
+import indexStyles from '../../styles';
 
-const pets = [
-  {
-    id: "1",
-    name: "Salsicha",
-    type: "Cachorro | Dachshund",
-    age: "5 anos",
-    weight: "6,5kg",
-    image: "https://example.com/dog.jpg",
-  },
-  {
-    id: "2",
-    name: "Luna",
-    type: "Gato | Siamês",
-    age: "3 anos",
-    weight: "4,5kg",
-    image: "https://example.com/cat.jpg",
-  },
-  {
-    id: "3",
-    name: "Pepe",
-    type: "Pássaro | Calopsita",
-    age: "2 anos",
-    weight: "200g",
-    image: "https://example.com/bird.jpg",
-  },
-];
+interface CalendarDay {
+  day: number;
+  dayOfWeek: string;
+}
 
 export default function HomeScreen() {
-  const [weekDays, setWeekDays] = useState<string[]>([]);
+  const [weekDays, setWeekDays] = useState<CalendarDay[]>([]);
   const [today, setToday] = useState<number>(-1);
   
   function setCurrentWeekDays() {
@@ -50,12 +29,15 @@ export default function HomeScreen() {
     const todayAux = new Date();
     const currentDayIndex = todayAux.getDay();
     setToday(currentDayIndex);
-    const currentWeek = [];
+    const currentWeek: CalendarDay[] = [];
     
     for (let i = 0; i < 7; i++) {
         const day = new Date();
         day.setDate(todayAux.getDate() - currentDayIndex + i);
-        currentWeek.push(`${day.getDate()} ${daysOfWeek[day.getDay()]}`);
+        currentWeek.push({
+          day: day.getDate(),
+          dayOfWeek: daysOfWeek[day.getDay()],
+        });
     }
     
     setWeekDays(currentWeek);
@@ -84,22 +66,23 @@ export default function HomeScreen() {
       </View>
 
       {/* Calendar */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
+      <View
         style={styles.calendar}
       >
         {weekDays.map((date, i) => (
           <View
             key={i}
-            style={[styles.dateItem, i === today && styles.selectedDate]}
+            style={[styles.dateItem]}
           >
-            <Text style={[styles.dateText, i === today && styles.selectedDateText]}>
-              {date}
+            <Text style={[styles.dayText, i === today && styles.selectedDayText]}>
+              {date.day}
+            </Text>
+            <Text style={[styles.dayOfWeekText, i === today && styles.selectedDayText]}>
+              {date.dayOfWeek}
             </Text>
           </View>
         ))}
-      </ScrollView>
+      </View>
 
       {/* Vaccination Card */}
       <View style={styles.vaccinationCard}>
@@ -118,8 +101,26 @@ export default function HomeScreen() {
             <View style={styles.petInfo}>
               <Text style={styles.petName}>{item.name}</Text>
               <Text style={styles.petDetails}>
-                {item.type} | {item.age} | {item.weight}
+                {item.type} | {item.breed}
               </Text>
+              <View style={styles.additionalInfo}>	
+                <View style={styles.additionalInfoItem}>
+                  <View style={styles.additionalInfoItemIcon}>
+                    <Feather name="activity" size={18} color="#FF914D" />
+                  </View>
+                  <Text style={styles.petDetails}>
+                    {item.age}
+                  </Text>
+                </View>
+                <View style={styles.additionalInfoItem}>
+                  <View style={styles.additionalInfoItemIcon}>
+                    <Feather name="bookmark" size={18} color="#FF914D" />
+                  </View>
+                  <Text style={styles.petDetails}>
+                  {item.weight}
+                  </Text>
+                </View>
+              </View>
               <TouchableOpacity style={styles.moreButton}>
                 <Text style={styles.moreButtonText}>Ver mais</Text>
               </TouchableOpacity>
@@ -139,14 +140,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
   },
-  greetingContainer: { flexDirection: "row", alignItems: "center" },
-  profileImage: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
-  greetingText: { fontSize: 18, fontWeight: "600" },
-  calendar: { flexDirection: "row", marginHorizontal: 20, marginBottom: 10 },
-  dateItem: { padding: 10, alignItems: "center" },
-  selectedDate: { backgroundColor: "#FF914D", borderRadius: 10 },
-  dateText: { color: "#666" },
-  selectedDateText: { color: "#FFF" },
+  ...indexStyles,
   vaccinationCard: {
     backgroundColor: "#FF914D",
     padding: 15,
@@ -161,21 +155,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginVertical: 10,
   },
-  petCard: {
-    flexDirection: "row",
-    backgroundColor: "#FFF",
-    marginHorizontal: 20,
-    marginVertical: 10,
-    borderRadius: 10,
-    padding: 10,
-    alignItems: "center",
-  },
-  petImage: { width: 60, height: 60, borderRadius: 10, marginRight: 10 },
-  petInfo: { flex: 1 },
-  petName: { fontWeight: "600", fontSize: 16 },
-  petDetails: { color: "#666", marginVertical: 5 },
-  moreButton: { backgroundColor: "#FF914D", borderRadius: 5, padding: 5 },
-  moreButtonText: { color: "#FFF", textAlign: "center" },
   bottomNavigation: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -186,5 +165,5 @@ const styles = StyleSheet.create({
   },
   navItem: { alignItems: "center" },
   navText: { color: "#999" },
-  navTextActive: { color: "#FF914D", fontWeight: "600" },
+  navTextActive: { color: "#FF914D", fontWeight: "600" }
 });
