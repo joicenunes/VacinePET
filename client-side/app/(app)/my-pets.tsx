@@ -1,52 +1,27 @@
 import React from "react";
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ListRenderItem } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ListRenderItem, ImageBackground } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-
-const pets = [
-  {
-    id: "1",
-    name: "Salsicha",
-    type: "Cachorro | Dachshund",
-    age: "5 anos",
-    weight: "6,5kg",
-    image: "https://example.com/dog.jpg",
-  },
-  {
-    id: "2",
-    name: "Luna",
-    type: "Gato | Siamês",
-    age: "3 anos",
-    weight: "4,5kg",
-    image: "https://example.com/cat.jpg",
-  },
-  {
-    id: "3",
-    name: "Pepe",
-    type: "Pássaro | Calopsita",
-    age: "2 anos",
-    weight: "200g",
-    image: "https://example.com/bird.jpg",
-  },
-];
+import { pets } from '../../providers/mock';
 
 export default function MyPetsScreen() {
   // Define the type of item in FlatList
   const renderPetCard: ListRenderItem<any> = ({ item }) => (
-    <View style={styles.petCard}>
-      <Image source={{ uri: item.image }} style={styles.petImage} />
-      <View style={styles.petInfo}>
-        <Text style={styles.petName}>{item.name}</Text>
-        <Text style={styles.petDetails}>
-          {item.type} | {item.age} | {item.weight}
-        </Text>
-        <TouchableOpacity style={styles.moreButton} onPress={() => {
-          router.push('/Salsicha');
-        }}>
-          <Text style={styles.moreButtonText}>Ver mais</Text>
-        </TouchableOpacity>
+    <TouchableOpacity onPress={() => {
+      router.push(`/pet/${item.id}`)
+    }}>
+      <View style={styles.petCard}>
+        <ImageBackground source={{ uri: item.image }} style={styles.flex} resizeMode='cover'>
+          <LinearGradient colors={['transparent', 'rgba(0,0,0,0.8)']} style={styles.petInfo}>
+            <Text style={styles.petName}>{item.name}</Text>
+            <Text style={styles.petDetails}>
+              {item.type}
+            </Text>
+          </LinearGradient>
+        </ImageBackground>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -56,9 +31,18 @@ export default function MyPetsScreen() {
         <TouchableOpacity onPress={() => {
           router.push("/")
         }}>
-          <MaterialIcons name="arrow-back" size={24} color="black" />
+          <View style={styles.iconBox}>
+            <Feather name="chevron-left" size={24} color="#FF914D" />
+          </View>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Meus pets</Text>
+        <TouchableOpacity onPress={() => {
+          router.push("/")
+        }}>
+          <View style={styles.iconBox}>
+            <Feather name="plus" size={24} color="#FF914D" />
+          </View>
+        </TouchableOpacity>
       </View>
 
       {/* Pets List */}
@@ -73,28 +57,28 @@ export default function MyPetsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F9F9F9", paddingTop: 50 },
+  container: { flex: 1, backgroundColor: "#FF914D", paddingTop: 50 },
   header: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     padding: 16,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FF914D",
   },
-  headerTitle: { fontSize: 18, fontWeight: "bold", marginLeft: 12 },
+  headerTitle: { color: "#FFF", fontSize: 18, fontWeight: "bold", textAlign: "center" },
+  iconBox: { backgroundColor: "#FFF", borderRadius: 8 },
   listContent: { paddingHorizontal: 16, paddingVertical: 8 },  
   petCard: {
-    flexDirection: "row",
+    flexDirection: "column",
     backgroundColor: "#FFF",
+    height: 150,
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 25,
     borderRadius: 10,
-    padding: 10,
-    alignItems: "center",
+    overflow: "hidden",
   },
-  petImage: { width: 60, height: 60, borderRadius: 10, marginRight: 10 },
-  petInfo: { flex: 1 },
-  petName: { fontWeight: "600", fontSize: 16 },
-  petDetails: { color: "#666", marginVertical: 5 },
-  moreButton: { backgroundColor: "#FF914D", borderRadius: 5, padding: 5 },
-  moreButtonText: { color: "#FFF", textAlign: "center" },
+  flex: { flex: 1 },
+  petInfo: {flex: 1, justifyContent: "center", paddingHorizontal: 30 },
+  petName: { color: "#FFF", fontWeight: "600", fontSize: 22 },
+  petDetails: { color: "#FF914D", fontSize: 16 },
 });
