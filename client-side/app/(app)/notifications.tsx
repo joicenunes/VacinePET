@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, ListRenderItem } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 // Define Notification Type
@@ -22,7 +22,7 @@ export default function NotificationsScreen() {
       <Text style={styles.date}>{item.date}</Text>
       {item.messages.map((message, index) => (
         <View key={index} style={styles.messageContainer}>
-          <MaterialIcons name="check-circle" size={24} color="#F7A456" />
+          <Feather name="check-circle" size={24} color="#F7A456" />
           <Text style={styles.messageText}>{message}</Text>
         </View>
       ))}
@@ -36,7 +36,7 @@ export default function NotificationsScreen() {
         <TouchableOpacity onPress={() => {
           router.push("/")
         }}>
-          <MaterialIcons name="arrow-back" size={24} color="black" />
+          <Feather name="arrow-left" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Notificações</Text>
       </View>
