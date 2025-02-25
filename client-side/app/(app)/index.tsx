@@ -121,10 +121,10 @@ export default function HomeScreen() {
       </View>
 
       {/* Vaccination Card */}
-      <View style={styles.vaccinationCard}>
+      {/* <View style={styles.vaccinationCard}>
         <Text style={styles.vaccinationText}>Vacina: Raiva → Salsicha</Text>
         <Text style={styles.vaccinationDetails}>25 de Março | 12h00</Text>
-      </View>
+      </View> */}
 
       {/* Pet Cards */}
       <Text style={styles.sectionTitle}>Meus Pets</Text>

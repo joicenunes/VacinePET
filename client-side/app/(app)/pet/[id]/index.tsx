@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, Link } from "expo-router";
 import { ThemedText } from '@/components/ThemedText';
-import { pets } from '../../../providers/mock';
-import { MedicalHistory, Pet, Vaccine } from '../../../interfaces/petInterfaces';
-import Header from '../../../components/headers/OrangeHeader';
+import { pets } from '../../../../providers/mock';
+import { MedicalHistory, Pet, Vaccine } from '../../../../interfaces/petInterfaces';
+import Header from '../../../../components/headers/OrangeHeader';
 import { Feather } from '@expo/vector-icons';
 
 export default function PetProfileScreen() {
@@ -16,7 +16,7 @@ export default function PetProfileScreen() {
     }
   };
   const rightIcon = {
-    url: "/",
+    url: `/pet/${id}/edit`,
     iconProps: {
       name: "edit"
     }
@@ -131,6 +131,15 @@ export default function PetProfileScreen() {
             <Text style={styles.petSubtitle}>Histórico Médico</Text>
             { renderMedicalHistory(pet.medical_history) }
           </View>
+          <View style={styles.petSubsection}>
+            <TouchableOpacity onPress={() => {
+              
+            }}>
+              <View style={styles.menuButton}>
+                <Text style={styles.menuButtonText}>Excluir Pet</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     </View>
@@ -179,6 +188,6 @@ const styles = StyleSheet.create({
   vaccinePending: { borderColor: "#FF914D", borderRadius: 50, paddingVertical: 8, paddingHorizontal: 25, borderWidth: 1.5, boxSizing: "border-box" },
   vaccineDone: { backgroundColor: "#FF914D", borderRadius: 50, padding: 8, paddingVertical: 8, paddingHorizontal: 25 },
   petHistoryDate: { fontSize: 16, color: "#FF914D", fontWeight: "bold", marginTop: 12 },
-  moreButton: { backgroundColor: "#FF914D", borderRadius: 5, padding: 5 },
-  moreButtonText: { color: "#FFF", textAlign: "center" },
+  menuButton: { backgroundColor: "#FCDBC1", borderRadius: 7, padding: 8 },
+  menuButtonText: { color: "#A3612E", textAlign: "center", fontSize: 16, fontWeight: "bold" },
 });
