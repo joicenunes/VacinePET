@@ -23,11 +23,13 @@ export default function Header({
       <TouchableOpacity onPress={() => {
         router.push((leftIcon?.url ?? "/") as Href)
       }}>
-        !!leftIcon ?
-        <View style={styles.iconBox}>
-          <Feather name={leftIcon?.iconProps.name} size={24} color='#FFF' /> :
-        </View>
-        <View style={{width: 24}}></View>
+        {
+          !!leftIcon ?
+          <View style={styles.iconBox}>
+            <Feather name={leftIcon?.iconProps.name} size={24} color='#FFF' /> 
+          </View> :
+          <View style={{width: 24}}></View>
+        }
       </TouchableOpacity>
       <Text style={styles.headerTitle}>
         {pageTitle}
