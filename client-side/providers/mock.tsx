@@ -13,6 +13,20 @@ export const pets: Pet[] = [
     description: "Salsicha é um cachorro muito brincalhão e adora correr no parque.",
     medical_history: [
       { date: "24/02/2024", description: "Aplicação das vacinas V10 e Antirrábica." },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
+      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
       { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" }
     ]
   },
@@ -29,6 +43,28 @@ export const pets: Pet[] = [
   },
   {
     id: "3",
+    name: "Pepe",
+    type: "Pássaro",
+    breed: "Calopsita",
+    age: "2 anos",
+    weight: "200g",
+    image: "https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600-1024x683.jpg",
+    gender: "Macho",
+    description: "Pepe é um pássaro muito cantor e adora ficar na janela observando a rua."
+  },
+  {
+    id: "4",
+    name: "Pepe",
+    type: "Pássaro",
+    breed: "Calopsita",
+    age: "2 anos",
+    weight: "200g",
+    image: "https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600-1024x683.jpg",
+    gender: "Macho",
+    description: "Pepe é um pássaro muito cantor e adora ficar na janela observando a rua."
+  },
+  {
+    id: "5",
     name: "Pepe",
     type: "Pássaro",
     breed: "Calopsita",
