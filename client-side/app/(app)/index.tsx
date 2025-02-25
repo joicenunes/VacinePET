@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { pets } from '../../providers/mock';
 import indexStyles from '../../styles';
+import { Pet } from '../../interfaces/petInterfaces';
 
 interface CalendarDay {
   day: number;
@@ -42,6 +43,41 @@ export default function HomeScreen() {
     
     setWeekDays(currentWeek);
   }
+
+  const renderPetCard = ({ item }: { item: Pet }) => (
+    <View style={styles.petCard}>
+      <Image source={{ uri: item.image }} style={styles.petImage} />
+      <View style={styles.petInfo}>
+        <Text style={styles.petName}>{item.name}</Text>
+        <Text style={styles.petDetails}>
+          {item.type} | {item.breed}
+        </Text>
+        <View style={styles.additionalInfo}>	
+          <View style={styles.additionalInfoItem}>
+            <View style={styles.additionalInfoItemIcon}>
+              <Feather name="activity" size={18} color="#FF914D" />
+            </View>
+            <Text style={styles.petDetails}>
+              {item.age}
+            </Text>
+          </View>
+          <View style={styles.additionalInfoItem}>
+            <View style={styles.additionalInfoItemIcon}>
+              <Feather name="bookmark" size={18} color="#FF914D" />
+            </View>
+            <Text style={styles.petDetails}>
+              {item.weight}
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.moreButton} onPress={() => {
+          router.push(`/pet/${item.id}`)
+        }}>
+          <Text style={styles.moreButtonText}>Ver mais</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 
   useEffect(() => {
     setCurrentWeekDays();
@@ -95,38 +131,7 @@ export default function HomeScreen() {
       <FlatList
         data={pets}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.petCard}>
-            <Image source={{ uri: item.image }} style={styles.petImage} />
-            <View style={styles.petInfo}>
-              <Text style={styles.petName}>{item.name}</Text>
-              <Text style={styles.petDetails}>
-                {item.type} | {item.breed}
-              </Text>
-              <View style={styles.additionalInfo}>	
-                <View style={styles.additionalInfoItem}>
-                  <View style={styles.additionalInfoItemIcon}>
-                    <Feather name="activity" size={18} color="#FF914D" />
-                  </View>
-                  <Text style={styles.petDetails}>
-                    {item.age}
-                  </Text>
-                </View>
-                <View style={styles.additionalInfoItem}>
-                  <View style={styles.additionalInfoItemIcon}>
-                    <Feather name="bookmark" size={18} color="#FF914D" />
-                  </View>
-                  <Text style={styles.petDetails}>
-                  {item.weight}
-                  </Text>
-                </View>
-              </View>
-              <TouchableOpacity style={styles.moreButton}>
-                <Text style={styles.moreButtonText}>Ver mais</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
+        renderItem={renderPetCard}
       />
     </View>
   );
