@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { router, useLocalSearchParams, Link } from "expo-router";
+import { View, Text, StyleSheet, ScrollView, ImageBackground } from "react-native";
+import { useLocalSearchParams, Link } from "expo-router";
 import { ThemedText } from '@/components/ThemedText';
 import { pets } from '../../../providers/mock';
 import { MedicalHistory, Pet } from '../../../interfaces/petInterfaces';
+import Header from '../../../components/headers/OrangeHeader';
 
 export default function PetProfileScreen() {
   const { id } = useLocalSearchParams();
+  const leftIcon = {
+    url: "/my-pets",
+    iconProps: {
+      name: "arrow-left",
+      color: "black"
+    }
+  };
+  const rightIcon = {
+    url: "/",
+    iconProps: {
+      name: "edit",
+      color: "black"
+    }
+  };
 
   const [pet, setPet] = useState<Pet | null>(null);
   const [isLoading, setLoading] = useState(true);
@@ -42,10 +56,10 @@ export default function PetProfileScreen() {
       return <Text style={styles.petDetails}>Histórico médico não disponível.</Text>;
     }
 
-    return medical_history.map((entry, index) => (
+    return medical_history.map((item, index) => (
       <View key={index}>
-        <Text style={styles.petHistoryDate}>{entry.date}:</Text>
-        <Text style={styles.petDetails}>{entry.description}</Text>
+        <Text style={styles.petHistoryDate}>{item.date}:</Text>
+        <Text style={styles.petDetails}>{item.description}</Text>
       </View>
     ));
   }
@@ -53,51 +67,51 @@ export default function PetProfileScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => {
-          router.push("/")
-        }}>
-          <Feather name="arrow-left" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Salsicha</Text>
+      <Header pageTitle={pet.name} leftIcon={leftIcon} rightIcon={rightIcon}></Header>
+
+      {/* Pet Image */}
+      <View style={styles.petImageContainer}>
+        <ImageBackground source={{ uri: pet.image }} style={styles.petImage} resizeMode='cover'>
+          <Text>AAA</Text>
+        </ImageBackground>
       </View>
 
       {/* Pet Info */}
-      <View style={styles.petImageContainer}>
-        <Image source={{ uri: pet.image }} style={styles.petImage} />
-      </View>
-      <View style={styles.petCard}>
-        <View style={styles.petTitle}>
-          <Text style={styles.petName}>{pet.name}</Text>
-          <Text style={styles.petDetails}>
-            {pet.type} | {pet.breed}
-          </Text>
-        </View>
-        <View style={styles.petInfoContainer}>
-          <View style={styles.petInfo}>
-            <Text style={styles.petInfoTitle}>Idade</Text>
-            <Text style={styles.petInfoData}>{pet.age}</Text>
+      <View style={styles.petCardWrapper}>
+        <ScrollView contentContainerStyle={styles.petCard}>
+          <View style={styles.petTitle}>
+            <Text style={styles.petName}>{pet.name}</Text>
+            <Text style={styles.petDetails}>
+              {pet.type} | {pet.breed}
+            </Text>
           </View>
-          <View style={styles.petInfo}>
-            <Text style={styles.petInfoTitle}>Peso</Text>
-            <Text style={styles.petInfoData}>{pet.weight}</Text>
+          <View style={styles.petInfoContainer}>
+            <View style={styles.petInfo}>
+              <Text style={styles.petInfoTitle}>Idade</Text>
+              <Text style={styles.petInfoData}>{pet.age}</Text>
+            </View>
+            <View style={styles.petInfo}>
+              <Text style={styles.petInfoTitle}>Peso</Text>
+              <Text style={styles.petInfoData}>{pet.weight}</Text>
+            </View>
+            <View style={styles.petInfo}>
+              <Text style={styles.petInfoTitle}>Sexo</Text>
+              <Text style={styles.petInfoData}>{pet.gender}</Text>
+            </View>
           </View>
-          <View style={styles.petInfo}>
-            <Text style={styles.petInfoTitle}>Sexo</Text>
-            <Text style={styles.petInfoData}>{pet.gender}</Text>
+          <View style={styles.petSubsection}>
+            <Text style={styles.petSubtitle}>Sobre</Text>
+            <Text style={styles.petDetails}>{pet.description}.</Text>
           </View>
-        </View>
-        <View style={styles.petSubsection}>
-          <Text style={styles.petSubtitle}>Sobre</Text>
-          <Text style={styles.petDetails}>{pet.description}.</Text>
-        </View>
-        <View style={styles.petSubsection}>
-          <Text style={styles.petSubtitle}>Vacinas</Text>
-        </View>
-        <View style={styles.petSubsection}>
-          <Text style={styles.petSubtitle}>Histórico Médico</Text>
-          { renderMedicalHistory(pet.medical_history) }
-        </View>
+          <View style={styles.petSubsection}>
+            <Text style={styles.petSubtitle}>Vacinas</Text>
+            { renderVaccines(pet.vaccines) }
+          </View>
+          <View style={styles.petSubsection}>
+            <Text style={styles.petSubtitle}>Histórico Médico</Text>
+            { renderMedicalHistory(pet.medical_history) }
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -106,42 +120,42 @@ export default function PetProfileScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FF914D", paddingTop: 50 },
   notFoundContainer: { flex: 1, backgroundColor: "#FF914D", paddingTop: 50, justifyContent: "center", alignItems: "center" },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "#FFFFFF",
-  },
-  headerTitle: { fontSize: 18, fontWeight: "bold", marginLeft: 12 },
-  listContent: { paddingHorizontal: 16, paddingVertical: 8 },  
-  petCard: {
-    flexDirection: "column",
-    backgroundColor: "#FFF",
-    marginHorizontal: 0,
-    marginVertical: 10,
-    borderRadius: 30,
-    padding: 10,
-    height: 600,
-    alignItems: "center",
-  }, 
   petImageContainer: {
-    flexDirection: "row",
+    flex: 1,
+    flexDirection: "column",
     backgroundColor: "#DDD",
+    maxHeight: 150,
     marginHorizontal: 40,
-    marginVertical: 10,
+    marginVertical: 30,
     borderRadius: 10,
-    alignItems: "center",
+    overflow: "hidden",
   },
-  petImage: { width: 'auto', height: 150, borderRadius: 10, marginRight: 10 },
-  petTitle: { width: '100%', marginTop: 10, paddingHorizontal: 20 },
-  petInfoContainer: { flex: 1, flexDirection: 'row', maxHeight: 75, marginVertical: 10 },
-  petInfo: { flex: 1, marginHorizontal: 15, padding: 15, boxShadow: "0 8px 12px #DDD", borderRadius: 10 },
+  petImage: { flex: 1 },
+  // petImage: { width: 'auto', height: 150, borderRadius: 10 },
+  petCardWrapper: {
+    flex: 1,
+    backgroundColor: "#FFF",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  petCard: {
+    marginHorizontal: 0,
+    marginTop: 10,
+    paddingTop: 10,
+    paddingHorizontal: 30,
+    minHeight: "auto",
+    alignItems: "center",
+    paddingBottom: 20
+  },
+  petTitle: { width: '100%', marginTop: 10 },
+  petInfoContainer: { flex: 1, flexDirection: 'row', height: 75, maxHeight: 75, marginVertical: 20, justifyContent: "space-between", gap: 15 },
+  petInfo: { flex: 1, padding: 15, boxShadow: "0 8px 12px #DDD", borderRadius: 10 },
   petInfoTitle: { color: "#666", fontSize: 16 },
   petInfoData: { fontSize: 18, color: "#FF914D", fontWeight: "bold" },
-  petDetails: { color: "#666", fontSize: 18, marginVertical: 5 },
+  petDetails: { color: "#666", fontSize: 18 },
   petName: { fontWeight: "600", fontSize: 24 },
-  petSubsection: { width: "100%", paddingHorizontal: 14 },
-  petSubtitle: { fontSize: 20, fontWeight: "bold", marginTop: 10, marginHorizontal: 8 },
+  petSubsection: { width: "100%", marginTop: 16 },
+  petSubtitle: { fontSize: 20, fontWeight: "bold", marginTop: 10, },
   petHistoryDate: { fontSize: 16, color: "#FF914D", fontWeight: "bold", marginTop: 12 },
   moreButton: { backgroundColor: "#FF914D", borderRadius: 5, padding: 5 },
   moreButtonText: { color: "#FFF", textAlign: "center" },
