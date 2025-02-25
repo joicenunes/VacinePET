@@ -9,6 +9,12 @@ export interface Pet {
   gender?: string;
   medical_history?: MedicalHistory[];
   weight?: string;
+  vaccines?: Vaccine[];
+}
+
+export interface Vaccine {
+  vaccine_name: string;
+  status: number;
 }
 
 export interface MedicalHistory {

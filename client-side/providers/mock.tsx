@@ -11,19 +11,30 @@ export const pets: Pet[] = [
     image: "https://example.com/dog.jpg",
     gender: "Macho",
     description: "Salsicha é um cachorro muito brincalhão e adora correr no parque.",
+    vaccines: [{
+      vaccine_name: "Gripe",
+      status: 0
+    }, {
+      vaccine_name: "Antirrábica",
+      status: 1
+    }, {
+      vaccine_name: "V10",
+      status: 1
+    }, {
+      vaccine_name: "Giardia",
+      status: 0
+    }, {
+      vaccine_name: "Leishmaniose",
+      status: 0
+    }, {
+      vaccine_name: "V8",
+      status: 0
+    }, {
+      vaccine_name: "Coronavirus",
+      status: 1
+    }],
     medical_history: [
       { date: "24/02/2024", description: "Aplicação das vacinas V10 e Antirrábica." },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
-      { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
       { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
       { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },
       { date: "24/02/2023", description: "Aplicação das vacinas V10 e Antirrábica" },

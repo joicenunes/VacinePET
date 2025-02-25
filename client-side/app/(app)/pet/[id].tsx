@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, ScrollView, ImageBackground } from "react-nativ
 import { useLocalSearchParams, Link } from "expo-router";
 import { ThemedText } from '@/components/ThemedText';
 import { pets } from '../../../providers/mock';
-import { MedicalHistory, Pet } from '../../../interfaces/petInterfaces';
+import { MedicalHistory, Pet, Vaccine } from '../../../interfaces/petInterfaces';
 import Header from '../../../components/headers/OrangeHeader';
+import { Feather } from '@expo/vector-icons';
 
 export default function PetProfileScreen() {
   const { id } = useLocalSearchParams();
@@ -64,6 +65,24 @@ export default function PetProfileScreen() {
     ));
   }
 
+  function renderVaccines(vaccines: Vaccine[]): React.ReactNode {
+    if (!vaccines || vaccines.length === 0) {
+      return <Text style={styles.petDetails}>Nenhuma vacina registrada.</Text>;
+    }
+
+    const possibleStyles = [styles.vaccinePending, styles.vaccineDone];
+
+    return vaccines.map((item, index) => (
+      <View style={[possibleStyles[item.status], item.status ? { flexDirection: "row", alignItems: "center" } : null]} key={index}>
+        <Text style={[styles.petDetails, item.status === 1 ? { color: "white", marginRight: 8 } : { color: "black" }]}>
+          {item.vaccine_name}
+        </Text>
+        { item.status === 1 ? 
+          <Feather name="check" size={20} color="white" /> : "" }
+      </View>
+    ));
+  }
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -71,9 +90,7 @@ export default function PetProfileScreen() {
 
       {/* Pet Image */}
       <View style={styles.petImageContainer}>
-        <ImageBackground source={{ uri: pet.image }} style={styles.petImage} resizeMode='cover'>
-          <Text>AAA</Text>
-        </ImageBackground>
+        <ImageBackground source={{ uri: pet.image }} style={styles.petImage} resizeMode='cover' />
       </View>
 
       {/* Pet Info */}
@@ -105,7 +122,12 @@ export default function PetProfileScreen() {
           </View>
           <View style={styles.petSubsection}>
             <Text style={styles.petSubtitle}>Vacinas</Text>
-            { renderVaccines(pet.vaccines) }
+            { pet.vaccines?.length ?
+              <ScrollView contentContainerStyle={styles.vaccinesContainer} horizontal={true}>
+                { renderVaccines(pet.vaccines) }
+              </ScrollView> :
+              <Text>Não há vacinas registradas paara esse pet.</Text>
+            }
           </View>
           <View style={styles.petSubsection}>
             <Text style={styles.petSubtitle}>Histórico Médico</Text>
@@ -131,7 +153,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   petImage: { flex: 1 },
-  // petImage: { width: 'auto', height: 150, borderRadius: 10 },
   petCardWrapper: {
     flex: 1,
     backgroundColor: "#FFF",
@@ -156,6 +177,9 @@ const styles = StyleSheet.create({
   petName: { fontWeight: "600", fontSize: 24 },
   petSubsection: { width: "100%", marginTop: 16 },
   petSubtitle: { fontSize: 20, fontWeight: "bold", marginTop: 10, },
+  vaccinesContainer: { flexDirection: "row", flexWrap: "wrap", gap: 5, marginTop: 10, paddingBottom: 5 },
+  vaccinePending: { borderColor: "#FF914D", borderRadius: 50, paddingVertical: 8, paddingHorizontal: 25, borderWidth: 1.5, boxSizing: "border-box" },
+  vaccineDone: { backgroundColor: "#FF914D", borderRadius: 50, padding: 8, paddingVertical: 8, paddingHorizontal: 25 },
   petHistoryDate: { fontSize: 16, color: "#FF914D", fontWeight: "bold", marginTop: 12 },
   moreButton: { backgroundColor: "#FF914D", borderRadius: 5, padding: 5 },
   moreButtonText: { color: "#FFF", textAlign: "center" },
