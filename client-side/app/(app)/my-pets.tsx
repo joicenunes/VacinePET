@@ -1,13 +1,26 @@
 import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ListRenderItem, ImageBackground } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { pets } from '../../providers/mock';
+import { Pet } from '../../interfaces/petInterfaces';
+import Header from '../../components/headers/OrangeHeader';
 
 export default function MyPetsScreen() {
-  // Define the type of item in FlatList
-  const renderPetCard: ListRenderItem<any> = ({ item }) => (
+  const leftIcon = {
+    url: '/',
+    iconProps: {
+      name: 'chevron-left'
+    }
+  }
+  const rightIcon = {
+    url: '/',
+    iconProps: {
+      name: 'plus'
+    }
+  };
+
+  const renderPetCard: ListRenderItem<Pet> = ({ item }) => (
     <TouchableOpacity onPress={() => {
       router.push(`/pet/${item.id}`)
     }}>
@@ -27,24 +40,8 @@ export default function MyPetsScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => {
-          router.push("/")
-        }}>
-          <View style={styles.iconBox}>
-            <Feather name="chevron-left" size={24} color="#FF914D" />
-          </View>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Meus pets</Text>
-        <TouchableOpacity onPress={() => {
-          router.push("/")
-        }}>
-          <View style={styles.iconBox}>
-            <Feather name="plus" size={24} color="#FF914D" />
-          </View>
-        </TouchableOpacity>
-      </View>
-
+      <Header pageTitle='Meus pets' leftIcon={leftIcon} rightIcon={rightIcon}></Header>
+      
       {/* Pets List */}
       <FlatList
         data={pets}
@@ -58,15 +55,6 @@ export default function MyPetsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FF914D", paddingTop: 50 },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 16,
-    backgroundColor: "#FF914D",
-  },
-  headerTitle: { color: "#FFF", fontSize: 18, fontWeight: "bold", textAlign: "center" },
-  iconBox: { backgroundColor: "#FFF", borderRadius: 8 },
   listContent: { paddingHorizontal: 16, paddingVertical: 8 },  
   petCard: {
     flexDirection: "column",
