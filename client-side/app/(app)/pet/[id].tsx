@@ -12,15 +12,13 @@ export default function PetProfileScreen() {
   const leftIcon = {
     url: "/my-pets",
     iconProps: {
-      name: "arrow-left",
-      color: "black"
+      name: "chevron-left"
     }
   };
   const rightIcon = {
     url: "/",
     iconProps: {
-      name: "edit",
-      color: "black"
+      name: "edit"
     }
   };
 
@@ -78,7 +76,7 @@ export default function PetProfileScreen() {
           {item.vaccine_name}
         </Text>
         { item.status === 1 ? 
-          <Feather name="check" size={20} color="white" /> : "" }
+        <Feather name="check" size={20} color="white" /> : null }
       </View>
     ));
   }
@@ -126,7 +124,7 @@ export default function PetProfileScreen() {
               <ScrollView contentContainerStyle={styles.vaccinesContainer} horizontal={true}>
                 { renderVaccines(pet.vaccines) }
               </ScrollView> :
-              <Text>Não há vacinas registradas paara esse pet.</Text>
+              <Text>Não há vacinas registradas para esse pet.</Text>
             }
           </View>
           <View style={styles.petSubsection}>
