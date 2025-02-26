@@ -15,7 +15,8 @@ export default function PetForm({ pet }: { pet: Pet | undefined }) {
     }
   };
 
-  const [title, setTitle] = useState('Cadastro do Pet');
+  const [isLoading, setLoading] = useState(true);
+  const [title, setTitle] = useState('');
   const [nome, setNome] = useState('');
   const [idade, setIdade] = useState('');
   const [peso, setPeso] = useState('');
@@ -33,7 +34,16 @@ export default function PetForm({ pet }: { pet: Pet | undefined }) {
     setEspecie(pet?.type ?? '');
     setRaca(pet?.breed ?? '');
     setTextarea(pet?.description ?? '');
+    setLoading(false);
   }, [pet]);
+  
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
 
   function renderVaccines(vaccines: Vaccine[]): React.ReactNode {
     if (!vaccines || vaccines.length === 0) {

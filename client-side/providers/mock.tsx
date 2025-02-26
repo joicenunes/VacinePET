@@ -8,7 +8,7 @@ export const pets: Pet[] = [
     age: "5 anos",
     breed: "Dachshund",
     weight: "6,5kg",
-    image: "https://example.com/dog.jpg",
+    image: "https://protoanimal.com.br/wp-content/uploads/2023/12/proto-animal-brasil-Dachshund-Tudo-sobre-a-raca-do-cachorro-salsicha-2.jpg",
     gender: "Macho",
     description: "Salsicha é um cachorro muito brincalhão e adora correr no parque.",
     vaccines: [{
@@ -48,7 +48,7 @@ export const pets: Pet[] = [
     age: "3 anos",
     breed: "Siamês",
     weight: "4,5kg",
-    image: "https://example.com/cat.jpg",
+    image: "https://www.zooplus.pt/magazine/wp-content/uploads/2018/06/siamkatze-768x512.jpeg",
     gender: "Fêmea",
     description: "Luna é uma gata muito carinhosa e adora brincar com bolinhas de lã."
   },
@@ -59,29 +59,7 @@ export const pets: Pet[] = [
     breed: "Calopsita",
     age: "2 anos",
     weight: "200g",
-    image: "https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600-1024x683.jpg",
-    gender: "Macho",
-    description: "Pepe é um pássaro muito cantor e adora ficar na janela observando a rua."
-  },
-  {
-    id: "4",
-    name: "Pepe",
-    type: "Pássaro",
-    breed: "Calopsita",
-    age: "2 anos",
-    weight: "200g",
-    image: "https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600-1024x683.jpg",
-    gender: "Macho",
-    description: "Pepe é um pássaro muito cantor e adora ficar na janela observando a rua."
-  },
-  {
-    id: "5",
-    name: "Pepe",
-    type: "Pássaro",
-    breed: "Calopsita",
-    age: "2 anos",
-    weight: "200g",
-    image: "https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600-1024x683.jpg",
+    image: "https://jpimg.com.br/uploads/2023/10/7-tipos-de-calopsitas-para-voce-conhecer.jpg",
     gender: "Macho",
     description: "Pepe é um pássaro muito cantor e adora ficar na janela observando a rua."
   },

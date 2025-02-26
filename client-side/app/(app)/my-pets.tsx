@@ -14,7 +14,7 @@ export default function MyPetsScreen() {
     }
   }
   const rightIcon = {
-    url: '/',
+    url: '/pet/new',
     iconProps: {
       name: 'plus'
     }
