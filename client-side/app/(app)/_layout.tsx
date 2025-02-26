@@ -100,7 +100,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="pet/[id]"
+        name="pet"
         options={{
           href: null,
         }}
